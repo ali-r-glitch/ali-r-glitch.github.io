@@ -184,14 +184,62 @@ Svg.selectAll("labels")
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 
-  
-  
+  var width = 400;
+var height = 400;
+
+var svg = d3.select("body").append("svg");
+svg.attr("width", width)
+    .attr("height", height);
+
+var dataset = [11, 13, 18, 25, 31];
+
+var radius = width / 2;
+var innerRadius = 0;
+var arc = d3.svg.arc()
+    .innerRadius(0)
+    .outerRadius(radius);
+
+var pie = d3.layout.pie();
+
+var arcs = svg.selectAll("g.arc")
+    .data(pie(dataset))
+    .enter()
+    .append("g")
+    .attr("class", "arc")
+    .attr("transform", "translate(" + radius + ", " + radius + ")");
+
+//Draw arc paths
+var color = d3.scale.category10();
+
+arcs.append("path")
+    .attr("fill", function (d, i) {
+    console.log(d);
+    return color(i);
+})
+    .attr("stroke", "white")
+    .attr("d", arc);
+
+
+var newarc = d3.svg.arc()
+    .innerRadius(2 * radius / 3)
+    .outerRadius(radius);
+
+arcs.append("text")
+    .attr("transform", function (d) {
+    return "translate(" + newarc.centroid(d) + ")";
+})
+    .attr("text-anchor", "middle")
+    .attr("fill", "white")
+    .text(function (d) {
+    return d.value + "%";
+});
   </script>
 
   <style>
 
 .legendsvg{
   float: left;
+ 
 
 }
 
