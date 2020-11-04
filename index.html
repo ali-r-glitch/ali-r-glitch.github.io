@@ -184,8 +184,12 @@ Svg.selectAll("labels")
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 
- 
-var newarc = d3.svg.arc()
+var newradius = width / 2;
+var innerRadius = 0;
+ var arc = d3.svg.arc()
+    .innerRadius(0)
+    .outerRadius(radius);
+ var newarc = d3.svg.arc()
     .innerRadius(2 * radius / 3)
     .outerRadius(radius);
 
