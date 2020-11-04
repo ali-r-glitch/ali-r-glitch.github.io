@@ -176,7 +176,7 @@ Svg.selectAll("legend")
 Svg.selectAll("labels")
   .data(keys)
   .enter()
-  .append("text")
+  .append("keys")
     .attr("x", 120)
     .attr("y", function(d,i){ return 100 + i*25}) 
     .style("fill", function(d){ return color(d)})
@@ -184,22 +184,6 @@ Svg.selectAll("labels")
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 
-var newradius = width / 2;
-var innerRadius = 0;
- var arc = d3.svg.arc()
-    .innerRadius(0)
-    .outerRadius(radius);
- var newarc = d3.svg.arc()
-    .innerRadius(2 * radius / 3)
-    .outerRadius(radius);
-
-arcs.append("text")
-    .attr("transform", function (d) {
-    return "translate(" + newarc.centroid(d) + ")";
-    .attr("text-anchor", "middle")
-    .attr("fill", "white")
-    .text(function (d) {
-    return d.value + "%";
      
   </script>
 
