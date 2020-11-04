@@ -176,7 +176,7 @@ Svg.selectAll("legend")
 Svg.selectAll("labels")
   .data(keys)
   .enter()
-  .append("keys")
+  .append("text")
     .attr("x", 120)
     .attr("y", function(d,i){ return 100 + i*25}) 
     .style("fill", function(d){ return color(d)})
@@ -184,14 +184,14 @@ Svg.selectAll("labels")
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 
-     
+  
+  
   </script>
 
   <style>
 
 .legendsvg{
   float: left;
- 
 
 }
 
