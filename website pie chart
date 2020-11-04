@@ -172,6 +172,18 @@ Svg.selectAll("legend")
     .attr("r", 7)
     .style("fill", function(d){ return color(d)})
 
+
+// Compute the position of each group on the pie:
+var pie = d3.pie()
+  .sort(null) // Do not sort group by size
+  .value(function(d) {return d.value; })
+var data_ready = pie(d3.entries(data))
+
+
+
+
+
+
 Svg.selectAll("labels")
   .data(keys)
   .enter()
