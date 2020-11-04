@@ -1,250 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
- <head>  
-    <script type="module" src= "pages.js" async></script>
-    
-    <script type="module" src= "creativeOne.js" async></script>
-    
-     <link rel="stylesheet" type="text/css" href="cssPages.css">
-
-     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" >
-     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
-     
-     
-     
-     
-     
-     
-     <title>My Web</title>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta property="description" content="Data Visualization and Web Dev Blogs">
-<meta property="author" content="Iman Raffee">
-
-</head> 
-<body>
-
+<html>
+ <script>
   
- <nav class="main-menu">
-     
-     <div class="web-name">
-         
-         <h3>My Website</h3>
-     </div>
+ 
+var width = 400;
+var height = 400;
 
-     
-<ul class="links"> 
-    <li><a href="home.html" >Home</a> </li>
-    <li><a href="about.html" >About</a> </li>
-    <li><a href="bloghome.html" >Blogs</a> </li>
-    <li><a href="contact.html" >Contact</a> </li>
-    
-</ul>
+var svg = d3.select("body").append("svg");
+svg.attr("width", width)
+    .attr("height", height);
 
-<div class="mobile-menu">
-    <div class="l1"></div>
-    <div class="l2"></div>
-    <div class="l3"></div>
+var dataset = [11, 13, 18, 25, 31];
 
-    </div>
-</div>
+var radius = width / 2;
+var innerRadius = 0;
+var arc = d3.svg.arc()
+    .innerRadius(0)
+    .outerRadius(radius);
 
- </nav>
+var pie = d3.layout.pie();
 
-<main>
-<header class="page-header"><h1>Covid 19 Deaths per Province in total</h1>
-    <p>Here we have a data Vizualization showing the following :</p>
+var arcs = svg.selectAll("g.arc")
+    .data(pie(dataset))
+    .enter()
+    .append("g")
+    .attr("class", "arc")
+    .attr("transform", "translate(" + radius + ", " + radius + ")");
 
-</header>
-   
-    <section class="intro">
-        <article class="h-entry" >
-         
-            <header class="article-header">
-                <h2 class = "article-name"> Donut graph with labels</h2>
-               
-              </header>
-    
-              <a id="Topbtn" title="scrollUp" href="#">&#94;</a>
-    
-    </article>
-    </section>
-    
-    <section class="CovidBarChart"></section>
-    <!DOCTYPE html>
-<meta charset="utf-8">
+//Draw arc paths
+var color = d3.scale.category10();
+
+arcs.append("path")
+    .attr("fill", function (d, i) {
+    console.log(d);
+    return color(i);
+})
+    .attr("stroke", "white")
+    .attr("d", arc);
 
 
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+var newarc = d3.svg.arc()
+    .innerRadius(2 * radius / 3)
+    .outerRadius(radius);
 
-
-
-<button class="piebtn" onclick="change(deaths)">Deaths</button>
-<button class="piebtn"  onclick="change(active)">Active Cases</button>
-<section class="piesection" >
-  
-  <div>
-    <svg class="pc" id="legendsvg" height=300 width=250></svg>
-  </div>
-  <div class="pc" id="piechart"></div>
-  
-
-</section>
-
-<script>
-  var width = 550
-      height = 550
-      margin = 10
-
-      var deaths = {Eastern_Cape: 3703, Free_State: 1509,Gauteng: 4828,KwaZulu_Natal: 3225,Western_Cape: 4365, Other:1781}
-  var active = {Eastern_Cape: 3654, Free_State: 12671,Gauteng: 15735,KwaZulu_Natal: 7112,Western_Cape: 4512, Other:8398}
-
-
-  var radius = Math.min(width, height) / 2 - margin
-  var svg = d3.select("#piechart")
-.append("svg")
- .attr("width", width)
-.attr("height", height)
-  .append("g")
-
-  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-  
-
-  
-  
-  
-  function change(data) {
-    var pie = d3.pie()
- .value(function(d) {return d.value; })
-   .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) 
-
-
-  var piedata = pie(d3.entries(data))
-  var mapping = svg.selectAll("path")
-.data(piedata)
-  
-var color = d3.scaleOrdinal()
-   .domain(data)
-    .range(d3.schemePastel2 );
-    mapping
-.enter()
-  .append('path')
-  .merge(mapping)
-  .transition()
-.duration(1000)
-  .attr('d', d3.arc()
-  .innerRadius(0)
-  .outerRadius(radius)
-      )
-  .attr('fill', function(d){ return(color(d.data.key)) })
-.attr("stroke", "pink")
-  .style("stroke-width", "5px")
- .style("opacity", 1)
-mapping
-  .exit()
-.remove() }
-  change(deaths)
-
-  var Svg = d3.select("#legendsvg")
-
-
-var keys = [
-"Eastern Cape",
-"Free State",
-"Gauteng",
-"KwaZulu-Natal",
-"Western Cape",
-"Other"]
-
-
-var color = d3.scaleOrdinal()
-  .domain(keys)
-  .range(d3.schemePastel2);
-
-
-Svg.selectAll("legend")
-  .data(keys)
-  .enter()
-  .append("circle")
-    .attr("cx", 100)
-    .attr("cy", function(d,i){ return 100 + i*25}) 
-    .attr("r", 7)
-    .style("fill", function(d){ return color(d)})
-
-
-//Svg.selectAll("labels")
- // .data(keys)
-  //.enter()
-  //.append("text")
-    //.attr("x", 120)
-    //.attr("y", function(d,i){ return 100 + i*25}) 
-   // .style("fill", function(d){ return color(d)})
-  //  .text(function(d){ return d})
-  //  .attr("text-anchor", "left")
-  //  .style("alignment-baseline", "middle")
-
-  
-  
-    svg
-  .selectAll('pie')
-  .data(piedata)
-  .enter()
-  .append('text')
-  .text(function(d){ return "grp " + d.keys.key})
-  .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
-  .style("text-anchor", "middle")
-  .style("font-size", 17)
-    
-    
-    
-    
-    
-    
-    
-  </script>
-
-  <style>
-
-.legendsvg{
-  float: left;
-
-}
-
-
-
-.piesection{
-  
-  width: 1000px;
-    margin: 20px auto;
-    
-}
-.pc{
-  width: 50%;
-    float: left;
-    padding: 20px;
-}
-.piebtn{
-  font-size:1rem;
-        padding:20px 20px;
-        border-radius:10px;
-        margin-top:20px;
-        color:white;
-        background-color: #ffc7d7;
-        border:#b1d5f8 3px solid;
-       
-        text-decoration:none;
-}
-
-.piebtn:hover{
-  background:#b1d5f8;
-        color:white;
-
-
-}
-  </style>
-</main>
-<button id='backButton'>Back</button>
-
-</body>
-</html>
+arcs.append("text")
+    .attr("transform", function (d) {
+    return "translate(" + newarc.centroid(d) + ")";
+})
+    .attr("text-anchor", "middle")
+    .attr("fill", "white")
+    .text(function (d) {
+    return d.value + "%";
+});
+ </script>
+ </html>
